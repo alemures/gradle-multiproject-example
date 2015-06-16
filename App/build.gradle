@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.test.Main"
+
+task hello << {
+	println 'Hello, World!'
+}
+
+jar {
+	manifest {
+		attributes('Main-Class': mainClassName)
+	}
+}
+
+task fatJar (type: Jar) {
+	baseName = project.name + '-all'
+	manifest {
+		attributes('Main-Class': mainClassName)
+	}
+	from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile project(':Lib')
+}

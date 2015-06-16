@@ -1,0 +1,3 @@
+String libPath = System.getProperty('user.dir') + '/../Lib'
+include ':Lib'
+project(':Lib').projectDir = new File(libPath)
